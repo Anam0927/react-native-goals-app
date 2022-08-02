@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 
 export default function App() {
   const [input, setInput] = useState('');
-  const [goals, setGoals] = useState([]);
+  const [goals, setGoals] = useState(
+    new Array(1000).fill('').map((_, i) => `Goal ${i + 1}`)
+  );
 
   const inputChangeHandler = (text) => {
     setInput(text);
@@ -29,17 +39,18 @@ export default function App() {
         <Button title='Add Goal' color='#a64819' onPress={buttonHandler} />
       </View>
       {/* list area */}
-      <View style={styles.listContainer}>
-        {goals?.length > 0 ? (
-          goals.map((goal, index) => (
-            <Text key={index} style={styles.listItem}>
-              {goal}
-            </Text>
-          ))
-        ) : (
-          <Text style={styles.listItem}>No goals yet</Text>
-        )}
-      </View>
+      {goals?.length > 0 ? (
+        <FlatList
+          data={goals}
+          renderItem={(itemData) => (
+            <Text style={styles.listItem}>{itemData.item}</Text>
+          )}
+          keyExtractor={(_, index) => index.toString()}
+          style={styles.listContainer}
+        />
+      ) : (
+        <Text style={styles.listItem}>No goals yet</Text>
+      )}
     </View>
   );
 }
