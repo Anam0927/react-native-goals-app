@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { Button, TextInput, View } from 'react-native';
 
 import styles from './goalInput.styles';
 
 const GoalInput = ({ addGoal }) => {
   const [input, setInput] = useState('');
+
+  const inputRef = useRef();
 
   const inputChangeHandler = (text) => {
     setInput(text);
@@ -15,6 +17,7 @@ const GoalInput = ({ addGoal }) => {
   const buttonPressHandler = () => {
     addGoal(input);
     setInput('');
+    inputRef.current.blur();
   };
 
   return (
@@ -25,6 +28,7 @@ const GoalInput = ({ addGoal }) => {
         onChangeText={inputChangeHandler}
         value={input}
         placeholderTextColor='#99867a'
+        ref={inputRef}
       />
       <Button title='Add Goal' color='#a64819' onPress={buttonPressHandler} />
     </View>
