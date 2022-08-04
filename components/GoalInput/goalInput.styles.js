@@ -2,25 +2,37 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingHorizontal: 32,
+
+    height: '50%',
+
+    flex: 1,
+
+    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
 
-    paddingBottom: 24,
-    marginBottom: 24,
-
-    borderBottomWidth: 1,
-    borderBottomColor: '#e6e0d5',
     color: '#1a0800',
   },
   textInput: {
-    flex: 1,
+    marginBottom: 16,
 
     borderWidth: 1,
     borderColor: '#b3a398',
 
-    marginRight: 8,
     paddingHorizontal: 16,
     paddingVertical: 8,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+  firstButtonContainer: {
+    paddingRight: 8,
+  },
+  lastButtonContainer: {
+    paddingLeft: 8,
   },
 });

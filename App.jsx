@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,6 +8,15 @@ import GoalInput from './components/GoalInput';
 
 export default function App() {
   const [goals, setGoals] = useState([]);
+  const [openInputModal, setOpenInputModal] = useState(false);
+
+  const openAddGoalModal = () => {
+    setOpenInputModal(true);
+  };
+
+  const closeAddGoalModal = () => {
+    setOpenInputModal(false);
+  };
 
   const addGoal = (goal) => {
     setGoals((prev) => [...prev, { text: goal, id: uuidv4() }]);
@@ -19,8 +28,15 @@ export default function App() {
 
   return (
     <View style={styles.rootContainer}>
+      <View style={styles.addGoalButtonContainer}>
+        <Button title='Add a Goal' color='#a64819' onPress={openAddGoalModal} />
+      </View>
       {/* input area */}
-      <GoalInput addGoal={addGoal} />
+      <GoalInput
+        addGoal={addGoal}
+        open={openInputModal}
+        closeModal={closeAddGoalModal}
+      />
       {/* list area */}
       {goals?.length > 0 ? (
         <FlatList
@@ -49,6 +65,9 @@ const styles = StyleSheet.create({
     flex: 1,
 
     backgroundColor: '#fffefc',
+  },
+  addGoalButtonContainer: {
+    marginBottom: 32,
   },
   noGoalsText: {
     color: '#1a0800',
