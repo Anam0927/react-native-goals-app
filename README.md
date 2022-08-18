@@ -9,14 +9,14 @@ This app was the start of my React Native journey and taught me the basics of th
 
 This is a simple, one screen app with
 - an input,
-- a customised button (using Pressable),
+- a customised button (using `Pressable`),
 - a modal, and
-- a Flatlist which lists all the goals.
+- a `Flatlist` which lists all the goals.
 
 The goals are managed locally through state and hence, not yet persistent.
 
 I have also
-- used uuid for generating ids fo r each goal,
+- used `uuid` for generating `id`s for each goal,
 - added custom fonts, and
 - an app wide background color.
 
