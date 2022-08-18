@@ -1,14 +1,29 @@
 import { useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { colors } from './colors';
+import { useFonts } from 'expo-font';
 
 import Goal from './components/Goal';
 import GoalInput from './components/GoalInput';
 
 export default function App() {
+  const [loaded] = useFonts({
+    'Josefin Sans Regular': require('./assets/fonts/JosefinSans-Regular.ttf'),
+    'Josefin Sans Bold': require('./assets/fonts/JosefinSans-Bold.ttf'),
+  });
+
   const [goals, setGoals] = useState([]);
   const [openInputModal, setOpenInputModal] = useState(false);
+  const [pressed, setPressed] = useState(false);
 
   const openAddGoalModal = () => {
     setOpenInputModal(true);
@@ -26,11 +41,27 @@ export default function App() {
     setGoals((prev) => prev.filter((goal) => goal.id !== id));
   };
 
-  return (
+  return loaded ? (
     <View style={styles.rootContainer}>
-      <View style={styles.addGoalButtonContainer}>
-        <Button title='Add a Goal' color='#a64819' onPress={openAddGoalModal} />
-      </View>
+      <Pressable
+        onPress={() => {
+          setPressed(true);
+          setTimeout(() => {
+            openAddGoalModal();
+            setPressed(false);
+          }, 500);
+        }}
+      >
+        <View style={styles.buttonShadow} />
+        <View
+          style={StyleSheet.flatten([
+            styles.addGoalButtonContainer,
+            pressed ? styles.pressed : null,
+          ])}
+        >
+          <Text style={styles.addGoalButtonText}>Add a Goal</Text>
+        </View>
+      </Pressable>
       {/* input area */}
       <GoalInput
         addGoal={addGoal}
@@ -54,7 +85,7 @@ export default function App() {
         <Text style={styles.noGoalsText}>No Goals Yet</Text>
       )}
     </View>
-  );
+  ) : null;
 }
 
 const styles = StyleSheet.create({
@@ -63,11 +94,37 @@ const styles = StyleSheet.create({
     paddingTop: 100,
 
     flex: 1,
-
-    backgroundColor: '#fffefc',
   },
   addGoalButtonContainer: {
-    marginBottom: 32,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+
+    position: 'relative',
+
+    backgroundColor: colors.primary.main,
+
+    borderRadius: 2,
+  },
+  buttonShadow: {
+    position: 'absolute',
+    top: 4,
+    left: 4,
+
+    width: '100%',
+    height: '100%',
+
+    backgroundColor: colors.primary.highlight,
+  },
+  addGoalButtonText: {
+    color: colors.primary.white,
+    fontSize: 32,
+    fontFamily: 'Josefin Sans Bold',
+
+    textAlign: 'center',
+  },
+  pressed: {
+    top: 4,
+    left: 4,
   },
   noGoalsText: {
     color: '#1a0800',
